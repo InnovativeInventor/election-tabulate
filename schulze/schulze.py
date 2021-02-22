@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import List, Dict, Tuple
 
 
 class SchulzeMethod:
@@ -53,15 +53,15 @@ class SchulzeMethod:
 
         return path_strengths
 
-    def evaluate(self) -> str:
+    def evaluate(self) -> Tuple[str, int]:
         """
-        Find schultze winner, if one exists
+        Find schultze winner, if one exists and return the (winner, strength)
         """
         strengths = self.strongest_paths()
         winners = []
         for x in self.candidates:
             if all([strengths[x][y] >= strengths[y][x] for y in self.candidates]):
-                winners.append(x)
+                winners.append((x, min([strengths[x][y] for y in self.candidates])))
 
         try:
             assert (

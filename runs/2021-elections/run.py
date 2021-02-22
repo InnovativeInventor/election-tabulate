@@ -19,9 +19,12 @@ def nab_prefs(
                 count += 1
                 ballot_ranks = {}
                 for choice, rank in ballot.items():
-                    if filter_string.lower() in choice.lower() and rank:
-                        choices.add(choice)
-                        ballot_ranks[choice] = int(rank[0])
+                    if filter_string.lower() in choice.lower():
+                        if rank:
+                            choices.add(choice)
+                            ballot_ranks[choice] = int(rank[0])
+                        else:
+                            ballot_ranks[choice] = len(ballot.items()) + 1
 
                 prefs.extend([ballot_ranks] * weights[ballot["Username"].rstrip()])
 
@@ -76,17 +79,20 @@ if __name__ == "__main__":
 
     # Presidency election calculations
     p_cands, p_prefs = nab_prefs(raw_results, "president", weights)
-    p_winner = calculate_winner(p_cands, p_prefs).split("[")[1].split("]")[0]
-    print(p_winner)
+    p_winner, p_strength = calculate_winner(p_cands, p_prefs)
+    p_winner = p_winner.split("[")[1].split("]")[0]
+    print(p_winner, p_strength)
 
     # Vice Presidency election calculations
     raw_vp_results = drop_winner(p_winner, raw_results)
     vp_cands, vp_prefs = nab_prefs(raw_vp_results, "vice", weights)
-    vp_winner = calculate_winner(vp_cands, vp_prefs).split("[")[1].split("]")[0]
-    print(vp_winner)
+    vp_winner, vp_strength = calculate_winner(vp_cands, vp_prefs)
+    vp_winner = vp_winner.split("[")[1].split("]")[0]
+    print(vp_winner, vp_strength)
 
     # Secretary election calculations
     raw_s_results = drop_winner(p_winner, raw_vp_results)
     s_cands, s_prefs = nab_prefs(raw_s_results, "secretary", weights)
-    s_winner = calculate_winner(s_cands, s_prefs).split("[")[1].split("]")[0]
-    print(s_winner)
+    s_winner, s_strength = calculate_winner(s_cands, s_prefs)
+    s_winner = s_winner.split("[")[1].split("]")[0]
+    print(s_winner, s_strength)
