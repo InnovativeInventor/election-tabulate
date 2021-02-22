@@ -49,7 +49,6 @@ def drop_winner(winner: str, results: List[Dict[str, str]]):
 
         for key in each_result.keys():
             if winner in key:
-                # print("Dropped")
                 keys_to_drop.append(key)
 
         for key in keys_to_drop:
