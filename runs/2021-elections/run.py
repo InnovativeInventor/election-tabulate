@@ -70,6 +70,9 @@ if __name__ == "__main__":
             weight = int(each_line.split("|")[1].rstrip())
             if weight >= 4:
                 weights[email] = weight + 4
+            else:
+                weights[email] = 0
+                # print(email, "has", weights[email], "weight")
 
     # Presidency election calculations
     p_cands, p_prefs = nab_prefs(raw_results, "president", weights)
