@@ -63,7 +63,12 @@ class SchulzeMethod:
             if all([strengths[x][y] >= strengths[y][x] for y in self.candidates]):
                 winners.append(x)
 
-        assert (
-            len(winners) == 1
-        )  # we can only have one winner and we better not have none
+        try:
+            assert (
+                len(winners) == 1
+            )  # we can only have one winner and we better not have none
+        except AssertionError:
+            print(winners)
+            assert len(winners) == 1
+
         return winners[0]
